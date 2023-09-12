@@ -1,0 +1,26 @@
+{
+  "name": "tree-sitter-smarty",
+  "version": "1.0.0",
+  "description": "smarty grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github,com/Kibadda/tree-sitter-smarty.git"
+  },
+  "scripts": {
+    "generate": "./node_modules/.bin/tree-sitter generate",
+    "test": "./node_modules/.bin/tree-sitter test"
+  },
+  "author": "Michael Strobel",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.17.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.8"
+  }
+}

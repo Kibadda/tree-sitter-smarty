@@ -1,0 +1,94 @@
+===================================
+Test
+===================================
+Text
+{$test|implode:'.':true|print_r} Test
+{* comment *}
+{block name='test'}
+  Test
+  {$test}
+{/block}
+{include test=true file='test' string=    'halllo'}
+Text
+{foreach $test as $key => $value}
+  {$key}:{$value}
+{foreachelse}
+  no results
+  {$hallo}
+{/foreach}
+{if true}
+  {$hallo}
+  Test
+{elseif $test}
+  Hier steht was
+{else}
+  {if false}
+    Hi
+  {/if}
+{/if}
+---
+
+(template
+  (text)
+  (inline
+    (php)
+    (modifier
+      (parameter)
+      (parameter)
+    )
+    (modifier)
+  )
+  (text)
+  (comment
+    (text)
+  )
+  (block
+    (parameter)
+    (body
+      (text)
+      (inline (php))
+    )
+  )
+  (include
+    (parameter)
+    (parameter)
+    (parameter)
+  )
+  (text)
+  (foreach
+    body: (body
+      (inline (php))
+      (text)
+      (inline (php))
+    )
+    alternative: (foreach_else
+      (body
+        (text)
+        (inline (php))
+      )
+    )
+  )
+  (if
+    condition: (text)
+    body: (body
+      (inline (php))
+      (text)
+    )
+    alternative: (else_if
+      condition: (text)
+      body: (body
+        (text)
+      )
+    )
+    alternative: (else
+      body: (body
+        (if
+          condition: (text)
+          body: (body
+            (text)
+          )
+        )
+      )
+    )
+  )
+)
