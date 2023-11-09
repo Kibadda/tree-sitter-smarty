@@ -8,7 +8,7 @@
 [
  (else_if)
  (else)
- (foreachelse)
+ (foreach_else)
 ] @indent.branch
 
 (ERROR) @indent.auto

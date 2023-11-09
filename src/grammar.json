@@ -34,6 +34,10 @@
         {
           "type": "SYMBOL",
           "name": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nocache"
         }
       ]
     },
@@ -59,6 +63,10 @@
         {
           "type": "SYMBOL",
           "name": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nocache"
         }
       ]
     },
@@ -143,22 +151,6 @@
           }
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "file[\\s]*=[\\s]*[^\\s}]+"
-          },
-          "named": true,
-          "value": "parameter"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameter"
-          }
-        },
-        {
           "type": "STRING",
           "value": "}"
         }
@@ -170,22 +162,6 @@
         {
           "type": "STRING",
           "value": "{block"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameter"
-          }
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "name[\\s]*=[\\s]*[^\\s}]+"
-          },
-          "named": true,
-          "value": "parameter"
         },
         {
           "type": "REPEAT",
@@ -520,7 +496,7 @@
     },
     "parameter": {
       "type": "PATTERN",
-      "value": "[^\\s=]+[\\s]*=[\\s]*[^\\s}]+"
+      "value": "[^\\s=]+[\\s]*=[\\s]*('[^']*'|\"[^\"]*\"|\\[[^]]*])"
     },
     "text": {
       "type": "PREC",

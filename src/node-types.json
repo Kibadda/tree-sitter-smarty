@@ -5,7 +5,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "body",
@@ -40,6 +40,10 @@
         },
         {
           "type": "inline",
+          "named": true
+        },
+        {
+          "type": "nocache",
           "named": true
         },
         {
@@ -193,7 +197,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "parameter",
@@ -237,6 +241,22 @@
     }
   },
   {
+    "type": "nocache",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "php",
     "named": true,
     "fields": {}
@@ -267,6 +287,10 @@
         },
         {
           "type": "inline",
+          "named": true
+        },
+        {
+          "type": "nocache",
           "named": true
         },
         {

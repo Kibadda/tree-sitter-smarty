@@ -16,6 +16,7 @@ module.exports = grammar({
       $.text,
       $.foreach,
       $.if,
+      $.nocache,
       // $.literal,
     ),
 
@@ -25,6 +26,7 @@ module.exports = grammar({
       $.text,
       $.foreach,
       $.if,
+      $.nocache,
     ),
 
     comment: $ => seq('{*', optional(repeat($.text)), '*}'),
@@ -42,15 +44,11 @@ module.exports = grammar({
     include: $ => seq(
       '{include',
       repeat($.parameter),
-      alias(/file[\s]*=[\s]*[^\s}]+/, $.parameter),
-      repeat($.parameter),
       '}',
     ),
 
     block: $ => seq(
       '{block',
-      repeat($.parameter),
-      alias(/name[\s]*=[\s]*[^\s}]+/, $.parameter),
       repeat($.parameter),
       '}',
       alias(repeat($._nested), $.body),
@@ -119,7 +117,7 @@ module.exports = grammar({
       )),
     ),
 
-    parameter: $ => /[^\s=]+[\s]*=[\s]*[^\s}]+/,
+    parameter: $ => /[^\s=]+[\s]*=[\s]*('[^']*'|"[^"]*"|\[[^]]*])/,
 
     text: $ => prec(-1, /[^\s\|{*}-]([^\|{*}]*[^\|{*}-])?/),
   },
