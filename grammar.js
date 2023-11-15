@@ -29,7 +29,7 @@ module.exports = grammar({
       $.nocache,
     ),
 
-    comment: $ => seq('{*', optional(repeat($.text)), '*}'),
+    comment: $ => seq('{*', /[^*]*/, '*}'),
 
     inline: $ => seq(
       '{',
