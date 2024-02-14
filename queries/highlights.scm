@@ -1,25 +1,17 @@
 [
-"{"
-"}"
-"|"
-"{elseif"
-"{else}"
-"{if"
-"{/if}"
-"{foreach"
-"{foreachelse}"
-"{/foreach}"
-"{block"
-"{/block}"
-"{nocache}"
-"{/nocache}"
-"{include"
+  "{"
+  "{/"
+  "}"
+] @tag.delimiter
+
+"=" @operator
+
+[
+  (tag)
+  (start_tag)
+  (end_tag)
 ] @tag
 
-(if condition: (text) @string)
-
-(inline (php) @string)
-
-(parameter) @parameter
+(key) @tag.attribute
 
 (comment) @comment

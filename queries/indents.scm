@@ -1,21 +1,18 @@
 [
- (if)
- (foreach)
- (block)
- (nocache)
+  (if)
+  (block)
+  (nocache)
+  (foreach)
+  (setfilter)
+  (strip)
 ] @indent.begin
 
 [
- (else_if)
- (else)
- (foreach_else)
+  (foreachelse)
+  (elseif)
+  (else)
+  (start_tag)
+  (end_tag)
 ] @indent.branch
-
-[
- "{/if}"
- "{/foreach}"
- "{/block}"
- "{/nocache}"
-] @indent.end
 
 (ERROR) @indent.auto

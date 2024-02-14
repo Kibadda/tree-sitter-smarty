@@ -1,94 +1,325 @@
 ===================================
-Test
+Test include
 ===================================
 Text
-{$test|implode:'.':true|print_r} Test
-{* comment *}
-{block name='test'}
-  Test
-  {$test}
-{/block}
-{include test=true file='test' string=    'halllo'}
+{include "hi" test='true' file='test hi' string='halllo' ti=['test' => $hi, 'true' => false]}
 Text
-{foreach $test as $key => $value}
-  {$key}:{$value}
-{foreachelse}
-  no results
-  {$hallo}
-{/foreach}
-{if true}
-  {$hallo}
-  Test
-{elseif $test}
-  Hier steht was
-{else}
-  {if false}
-    Hi
-  {/if}
-{/if}
 ---
 
 (template
   (text)
-  (inline
-    (php)
-    (modifier
-      (parameter)
-      (parameter)
-    )
-    (modifier)
+  (include
+    (tag)
+    (attributelist
+      (attribute (value))
+      (attribute (key) (value))
+      (attribute (key) (value))
+      (attribute (key) (value))
+      (attribute (key) (value)))
   )
   (text)
-  (comment
-    (text)
-  )
+)
+
+
+===================================
+Test block
+===================================
+Text
+{block hide name='test' prepend}
+Text
+{/block}
+Text
+---
+
+(template
+  (text)
   (block
-    (parameter)
-    (body
-      (text)
-      (inline (php))
-    )
+    (start_tag)
+    (attributelist
+      (attribute (value))
+      (attribute (key) (value))
+      (attribute (value)))
+    (body (text))
+    (end_tag)
   )
-  (include
-    (parameter)
-    (parameter)
-    (parameter)
-  )
+  (text)
+)
+
+
+===================================
+Test foreach
+===================================
+Text
+{foreach $tests as $key => $value}
+Text
+{foreachelse}
+Text
+{/foreach}
+Text
+---
+
+(template
   (text)
   (foreach
-    body: (body
-      (inline (php))
-      (text)
-      (inline (php))
-    )
-    alternative: (foreach_else
+    (start_tag)
+    (expression)
+    (body
+      (text))
+    (foreachelse
+      (tag)
       (body
-        (text)
-        (inline (php))
-      )
-    )
+        (text)))
+    (end_tag)
   )
-  (if
-    condition: (text)
-    body: (body
-      (inline (php))
-      (text)
-    )
-    alternative: (else_if
-      condition: (text)
-      body: (body
-        (text)
-      )
-    )
-    alternative: (else
-      body: (body
-        (if
-          condition: (text)
-          body: (body
-            (text)
-          )
-        )
-      )
-    )
-  )
+  (text)
 )
+
+
+===================================
+Test nocache
+===================================
+Text
+{nocache}
+Text
+{/nocache}
+Text
+---
+
+(template
+  (text)
+  (nocache
+    (start_tag)
+    (body
+      (text))
+    (end_tag)
+  )
+  (text)
+)
+
+
+===================================
+Test if
+===================================
+Text
+{if is_null($test)}
+Text
+{elseif !empty($test)}
+Text
+{elseif false}
+Text
+{else}
+Text
+{/if}
+Text
+---
+
+(template
+  (text)
+  (if
+    (start_tag)
+    (condition)
+    (body
+      (text))
+    (elseif
+      (tag)
+      (condition)
+      (body
+        (text)))
+    (elseif
+      (tag)
+      (condition)
+      (body
+        (text)))
+    (else
+      (tag)
+      (body
+        (text)))
+    (end_tag)
+  )
+  (text)
+)
+
+
+===================================
+Test inline
+===================================
+{$hi}
+---
+
+(template
+  (inline)
+)
+
+
+===================================
+Test comment
+===================================
+Text
+{* fdjasklfdsajfdsa *} *}
+---
+
+(template
+  (text)
+  (comment)
+  (text)
+)
+
+
+===================================
+Test combination
+===================================
+{if true}
+  Hi
+{/if}
+{$hi}
+---
+
+(template
+  (if
+    (start_tag)
+    (condition)
+    (body
+      (text))
+    (end_tag))
+  (inline)
+)
+
+
+===================================
+Test single brackets and empty brackets
+===================================
+Text {
+
+}{}
+---
+
+(template
+  (text)
+)
+
+
+===================================
+Test body with only inline
+===================================
+{if !empty($lastLog)}
+    {$lastLog->getCreated()}
+    {$lastLog->getLog()}
+{else}
+    <em>no last update found</em>
+{/if}
+---
+
+(template
+  (if
+    (start_tag)
+    (condition)
+    (body
+      (inline)
+      (inline))
+    (else
+      (tag)
+      (body
+        (text)))
+    (end_tag)))
+
+
+===================================
+Test attributes 1
+===================================
+{include test='hi' two='file'}
+---
+
+(template
+  (include
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value)))))
+
+
+===================================
+Test attributes 2
+===================================
+{include test="hi" two="file"}
+---
+
+(template
+  (include
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value)))))
+
+
+===================================
+Test attributes 3
+===================================
+{include test=["hi", 'file', true] two=[]}
+---
+
+(template
+  (include
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value)))))
+
+
+===================================
+Test attributes 4
+===================================
+{include "hi" true [] 'hi'}
+---
+
+(template
+  (include
+    (tag)
+    (attributelist
+      (attribute (value))
+      (attribute (value))
+      (attribute (value))
+      (attribute (value)))))
+
+
+===================================
+Test attributes 5
+===================================
+{include test=true two=$hi}
+---
+
+(template
+  (include
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value)))))
+
+
+===================================
+Test attributes 6
+===================================
+{include hide name='test' prepend}
+---
+
+(template
+  (include
+    (tag)
+    (attributelist
+      (attribute (value))
+      (attribute (key) (value))
+      (attribute (value)))))
+
+
+===================================
+Test append
+===================================
+{append 'name' value='test' index='last'}
+---
+
+(template
+  (append
+    (tag)
+    (attributelist
+      (attribute (value))
+      (attribute (key) (value))
+      (attribute (key) (value)))))

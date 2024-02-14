@@ -1,5 +1,7 @@
 # tree-sitter-smarty
 
+This now supports most of the smarty functionality. There are still things missing (e.g. like modifiers).
+
 ## Usage
 First add parser:
 
@@ -9,8 +11,8 @@ local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 parsers.smarty = {
   install_info = {
     url = "https://github.com/Kibadda/tree-sitter-smarty",
-    files = { "src/parser.c" },
-    branch = "main",
+    files = { "src/parser.c", "src/scanner.c" },
+    branch = "dev",
   },
 }
 ```

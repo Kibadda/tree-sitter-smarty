@@ -1,9 +1,18 @@
 module.exports = grammar({
   name: 'smarty',
 
+  externals: $ => [
+    $.inline,
+    $.comment,
+    $.text,
+    $.attribute_key,
+    $.attribute_value,
+    $.error_check,
+  ],
+
   extras: $ => [
     $.comment,
-    /\s+/,
+    /\s/,
   ],
 
   rules: {
@@ -11,52 +20,84 @@ module.exports = grammar({
 
     _smarty: $ => choice(
       $.inline,
-      $.include,
+      $.text,
+
+      $.append,
+      $.assign,
       $.block,
-      $.text,
+      $.call,
+      // $.capture,
+      $.config_load,
+      $.debug,
+      $.extends,
+      // $.for,
       $.foreach,
+      $.function,
       $.if,
-      $.nocache,
-      // $.literal,
-    ),
-
-    _nested: $ => choice(
-      $.inline,
       $.include,
-      $.text,
-      $.foreach,
-      $.if,
+      $.insert,
+      $.ldelim,
+      $.rdelim,
+      // $.literal,
       $.nocache,
+      // $.section,
+      $.setfilter,
+      $.strip,
+      // $.while,
     ),
 
-    comment: $ => seq('{*', /[^*]*/, '*}'),
-
-    inline: $ => seq(
-      '{',
-      alias($.text, $.php),
-      repeat(seq(
-        '|',
-        $.modifier,
-      )),
-      '}'
-    ),
-
-    include: $ => seq(
-      '{include',
-      repeat($.parameter),
-      '}',
-    ),
-
-    block: $ => seq(
-      '{block',
-      repeat($.parameter),
-      '}',
-      alias(repeat($._nested), $.body),
-      '{/block}',
-    ),
-
+    append: $ => tag($, 'append', true, false),
+    assign: $ => tag($, 'assign', true, false),
+    block: $ => tag($, 'block', true, true),
+    call: $ => tag($, 'call', true, false),
+    // capture
+    config_load: $ => tag($, 'config_load', true, false),
+    debug: $ => tag($, 'debug', false, false),
+    extends: $ => tag($, 'extends', true, false),
+    // for
     foreach: $ => seq(
-      '{foreach',
+      '{',
+      alias('foreach', $.start_tag),
+      field('expression', alias($.foreachexpression, $.expression)),
+      '}',
+      field('body', alias(repeat($._smarty), $.body)),
+      field('alternative', optional($.foreachelse)),
+      '{/',
+      alias('foreach', $.end_tag),
+      '}',
+    ),
+    function: $ => tag($, 'function', true, true),
+    if: $ => seq(
+      '{',
+      alias('if', $.start_tag),
+      field('condition', alias($.ifcondition, $.condition)),
+      '}',
+      field('body', alias(repeat($._smarty), $.body)),
+      repeat(field('alternative', $.elseif)),
+      optional(field('alternative', $.else)),
+      '{/',
+      alias('if', $.end_tag),
+      '}',
+    ),
+    include: $ => tag($, 'include', true, false),
+    insert: $ => tag($, 'insert', true, false),
+    ldelim: $ => tag($, 'ldelim', false, false),
+    rdelim: $ => tag($, 'rdelim', false, false),
+    // literal
+    nocache: $ => tag($, 'nocache', false, true),
+    // section
+    setfilter: $ => tag($, 'setfilter', true, true),
+    strip: $ => tag($, 'strip', false, true),
+    // while
+
+    attributelist: $ => repeat1($.attribute),
+
+    attribute: $ => choice(
+      alias($.attribute_value, $.value),
+      seq(alias($.attribute_key, $.key), '=', alias($.attribute_value, $.value)),
+    ),
+
+    foreachexpression: _ => seq(
       /\$[^\s]+/,
       'as',
       /\$[^\s=}]+/,
@@ -64,61 +105,49 @@ module.exports = grammar({
         '=>',
         /\$[^}]+/,
       )),
-      '}',
-      field('body', alias(repeat($._nested), $.body)),
-      field('alternative', optional($.foreach_else)),
-      '{/foreach}',
     ),
 
-    foreach_else: $ => seq(
-      '{foreachelse}',
-      alias(repeat($._nested), $.body),
+    foreachelse: $ => seq(
+      '{',
+      alias('foreachelse', $.tag),
+      '}',
+      field('body', alias(repeat($._smarty), $.body)),
     ),
 
-    if: $ => seq(
-      '{if',
-      field('condition', alias(/[^}]+/, $.text)),
-      '}',
-      field('body', alias(repeat($._nested), $.body)),
-      repeat(field('alternative', $.else_if)),
-      optional(field('alternative', $.else)),
-      '{/if}',
-    ),
+    ifcondition: _ => /[^}]+/,
 
-    else_if: $ => seq(
-      '{elseif',
-      field('condition', alias(/[^}]+/, $.text)),
+    elseif: $ => prec.left(1, seq(
+      '{',
+      alias('elseif', $.tag),
+      field('condition', alias($.ifcondition, $.condition)),
       '}',
-      field('body', alias(repeat($._nested), $.body)),
-    ),
+      field('body', alias(repeat($._smarty), $.body)),
+    )),
 
     else: $ => seq(
-      '{else}',
-      field('body', alias(repeat($._nested), $.body)),
+      '{',
+      alias('else', $.tag),
+      '}',
+      field('body', alias(repeat($._smarty), $.body)),
     ),
-
-    nocache: $ => seq(
-      '{nocache}',
-      field('body', alias(repeat($._nested), $.body)),
-      '{/nocache}',
-    ),
-
-    // literal: $ => seq(
-    //   '{literal}',
-    //   field('body', alias(repeat($._smarty), $.text)),
-    //   '{/literal}',
-    // ),
-
-    modifier: $ => seq(
-      /[^|:}]+/,
-      repeat(seq(
-        ':',
-        alias(/[^|:}]+/, $.parameter),
-      )),
-    ),
-
-    parameter: $ => /[^\s=]+[\s]*=[\s]*('[^']*'|"[^"]*"|\[[^]]*])/,
-
-    text: $ => prec(-1, /[^\s\|{*}-]([^\|{*}]*[^\|{*}-])?/),
   },
 });
+
+function tag($, name, attributes = true, body = true) {
+  let arguments = ['{', alias(name, body ? $.start_tag : $.tag)];
+
+  if (attributes) {
+    arguments.push(optional(field('attributes', $.attributelist)));
+  }
+
+  arguments.push('}');
+
+  if (body) {
+    arguments.push(field('body', alias(repeat($._smarty), $.body)));
+    arguments.push('{/');
+    arguments.push(alias(name, $.end_tag));
+    arguments.push('}');
+  }
+
+  return seq(...arguments);
+}

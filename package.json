@@ -13,7 +13,8 @@
   },
   "scripts": {
     "generate": "./node_modules/.bin/tree-sitter generate",
-    "test": "./node_modules/.bin/tree-sitter test"
+    "test": "./node_modules/.bin/tree-sitter test",
+    "parse": "./node_modules/.bin/tree-sitter parse"
   },
   "author": "Michael Strobel",
   "license": "MIT",
