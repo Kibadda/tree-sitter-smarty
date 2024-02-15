@@ -35,8 +35,10 @@ inline
 ---
 
 (template
-  (inline)
-  (inline))
+  (inline
+    (php))
+  (inline
+    (php)))
 
 
 ===================================
@@ -214,7 +216,8 @@ foreach
     (expression)
     (body
       (text)
-      (inline)
+      (inline
+        (php))
       (text))
     (foreachelse
       (tag)
@@ -239,7 +242,8 @@ function
       (attribute (key) (value)))
     (body
       (text)
-      (inline)
+      (inline
+        (php))
       (text))
     (end_tag)))
 
@@ -331,7 +335,8 @@ nocache
   (nocache
     (start_tag)
     (body
-      (inline))
+      (inline
+        (php)))
     (end_tag)))
 
 
@@ -351,7 +356,8 @@ id: {$custid[customer]}<br/>
       (attribute (key) (value)))
     (body
       (text)
-      (inline)
+      (inline
+        (php))
       (text))
     (end_tag)))
 
@@ -370,7 +376,8 @@ setfilter
     (attributelist
       (attribute (value)))
     (body
-      (inline))
+      (inline
+        (php)))
     (end_tag)))
 
 
@@ -407,7 +414,8 @@ while
     (start_tag)
     (condition)
     (body
-      (inline))
+      (inline
+        (php)))
     (end_tag)))
 
 
@@ -605,3 +613,40 @@ This is foo.
     (body
       (text))
     (end_tag)))
+
+
+===================================
+modifiers
+===================================
+{$title|upper}
+{$title|truncate:40:"..."}
+{"foobar"|upper}
+{$title|upper|spacify}
+---
+
+(template
+  (inline
+    (php)
+    (modifierlist
+      (modifier
+        (modifierfunction))))
+  (inline
+    (php)
+    (modifierlist
+      (modifier
+        (modifierfunction)
+        (parameterlist
+          (parameter)
+          (parameter)))))
+  (inline
+    (php)
+    (modifierlist
+      (modifier
+        (modifierfunction))))
+  (inline
+    (php)
+    (modifierlist
+      (modifier
+        (modifierfunction))
+      (modifier
+        (modifierfunction)))))

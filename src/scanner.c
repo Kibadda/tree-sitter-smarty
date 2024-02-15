@@ -6,7 +6,7 @@
 #define MAX_TAG_SIZE 200
 
 enum TokeyType {
-  INLINE,
+  INLINE_CONTENT,
   COMMENT,
   TEXT,
   ATTRIBUTE_KEY,
@@ -144,7 +144,8 @@ static bool scan_inline(TSLexer *lexer) {
   char tag[MAX_TAG_SIZE] = "";
   unsigned size = 0;
 
-  while (!iswspace(lexer->lookahead) && lexer->lookahead != '}') {
+  while (!iswspace(lexer->lookahead) && lexer->lookahead != '}' &&
+         lexer->lookahead != '|') {
     if (size == MAX_TAG_SIZE) {
       return false;
     }
@@ -163,11 +164,9 @@ static bool scan_inline(TSLexer *lexer) {
     }
   }
 
-  while (lexer->lookahead != '}') {
+  while (lexer->lookahead != '}' && lexer->lookahead != '|') {
     consume(lexer);
   }
-
-  consume(lexer);
 
   return true;
 }
@@ -298,6 +297,11 @@ bool tree_sitter_smarty_external_scanner_scan(void *payload, TSLexer *lexer,
 
   if (valid_symbols[ATTRIBUTE_KEY] || valid_symbols[ATTRIBUTE_VALUE]) {
     return scan_attribute(lexer, valid_symbols[ATTRIBUTE_KEY]);
+  } else if (valid_symbols[INLINE_CONTENT]) {
+    if (scan_inline(lexer)) {
+      lexer->result_symbol = INLINE_CONTENT;
+      return true;
+    }
   } else {
     if (lexer->lookahead == '{') {
       consume(lexer);
@@ -310,11 +314,6 @@ bool tree_sitter_smarty_external_scanner_scan(void *payload, TSLexer *lexer,
       } else if (iswspace(lexer->lookahead) || lexer->lookahead == '}') {
         if (valid_symbols[TEXT] && scan_text(lexer)) {
           lexer->result_symbol = TEXT;
-          return true;
-        }
-      } else {
-        if (valid_symbols[INLINE] && scan_inline(lexer)) {
-          lexer->result_symbol = INLINE;
           return true;
         }
       }

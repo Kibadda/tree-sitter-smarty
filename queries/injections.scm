@@ -11,6 +11,8 @@
 ((expression) @injection.content
   (#set! injection.language "php_only"))
 
-((inline) @injection.content
-  (#offset! injection.content 0 1 0 -1)
+((php) @injection.content
+  (#set! injection.language "php_only"))
+
+((parameter) @injection.content
   (#set! injection.language "php_only"))

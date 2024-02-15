@@ -2,7 +2,7 @@ module.exports = grammar({
   name: 'smarty',
 
   externals: $ => [
-    $.inline,
+    $.inline_content,
     $.comment,
     $.text,
     $.attribute_key,
@@ -65,6 +65,13 @@ module.exports = grammar({
       $.mailto,
       $.math,
       $.textformat,
+    ),
+
+    inline: $ => seq(
+      '{',
+      alias($.inline_content, $.php),
+      optional($.modifierlist),
+      '}',
     ),
 
     append: $ => tag($, 'append', true, false),
@@ -144,6 +151,17 @@ module.exports = grammar({
     mailto: $ => tag($, 'mailto', true, false),
     math: $ => tag($, 'math', true, false),
     textformat: $ => tag($, 'textformat', true, true),
+
+    modifierlist: $ => repeat1(seq('|', $.modifier)),
+
+    modifier: $ => seq(
+      alias(/[^:}|]+/, $.modifierfunction),
+      optional($.parameterlist),
+    ),
+
+    parameterlist: $ => repeat1(seq(':', $.parameter)),
+
+    parameter: _ => /[^:|}]+/,
 
     attributelist: $ => repeat1($.attribute),
 

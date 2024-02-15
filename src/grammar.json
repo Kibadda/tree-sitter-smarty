@@ -161,6 +161,40 @@
         }
       ]
     },
+    "inline": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "inline_content"
+          },
+          "named": true,
+          "value": "php"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "modifierlist"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "append": {
       "type": "SEQ",
       "members": [
@@ -1844,6 +1878,68 @@
         }
       ]
     },
+    "modifierlist": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "|"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "modifier"
+          }
+        ]
+      }
+    },
+    "modifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^:}|]+"
+          },
+          "named": true,
+          "value": "modifierfunction"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "parameterlist"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "parameterlist": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "parameter"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "type": "PATTERN",
+      "value": "[^:|}]+"
+    },
     "attributelist": {
       "type": "REPEAT1",
       "content": {
@@ -2160,7 +2256,7 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "inline"
+      "name": "inline_content"
     },
     {
       "type": "SYMBOL",

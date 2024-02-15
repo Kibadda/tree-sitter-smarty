@@ -4,7 +4,13 @@
   "}"
 ] @tag.delimiter
 
-"=" @operator
+[
+  "="
+  ":"
+  "|"
+] @operator
+
+(modifierfunction) @function.call
 
 [
   (tag)
