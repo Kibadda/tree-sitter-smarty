@@ -150,7 +150,19 @@
           "named": true
         },
         {
+          "type": "capture",
+          "named": true
+        },
+        {
           "type": "config_load",
+          "named": true
+        },
+        {
+          "type": "counter",
+          "named": true
+        },
+        {
+          "type": "cycle",
           "named": true
         },
         {
@@ -158,7 +170,19 @@
           "named": true
         },
         {
+          "type": "eval",
+          "named": true
+        },
+        {
           "type": "extends",
+          "named": true
+        },
+        {
+          "type": "fetch",
+          "named": true
+        },
+        {
+          "type": "for",
           "named": true
         },
         {
@@ -167,6 +191,34 @@
         },
         {
           "type": "function",
+          "named": true
+        },
+        {
+          "type": "html_checkboxes",
+          "named": true
+        },
+        {
+          "type": "html_image",
+          "named": true
+        },
+        {
+          "type": "html_options",
+          "named": true
+        },
+        {
+          "type": "html_radios",
+          "named": true
+        },
+        {
+          "type": "html_select_date",
+          "named": true
+        },
+        {
+          "type": "html_select_time",
+          "named": true
+        },
+        {
+          "type": "html_table",
           "named": true
         },
         {
@@ -190,11 +242,23 @@
           "named": true
         },
         {
+          "type": "mailto",
+          "named": true
+        },
+        {
+          "type": "math",
+          "named": true
+        },
+        {
           "type": "nocache",
           "named": true
         },
         {
           "type": "rdelim",
+          "named": true
+        },
+        {
+          "type": "section",
           "named": true
         },
         {
@@ -207,6 +271,14 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "textformat",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -239,7 +311,104 @@
     }
   },
   {
+    "type": "capture",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "start_tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "condition",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "config_load",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "counter",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "cycle",
     "named": true,
     "fields": {
       "attributes": {
@@ -342,6 +511,32 @@
     }
   },
   {
+    "type": "eval",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expression",
     "named": true,
     "fields": {}
@@ -367,6 +562,82 @@
       "types": [
         {
           "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fetch",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "forelse",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      },
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "start_tag",
           "named": true
         }
       ]
@@ -449,6 +720,32 @@
     }
   },
   {
+    "type": "forelse",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "function",
     "named": true,
     "fields": {
@@ -483,6 +780,188 @@
         },
         {
           "type": "start_tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_checkboxes",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_image",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_options",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_radios",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_select_date",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_select_time",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_table",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -610,6 +1089,58 @@
     }
   },
   {
+    "type": "mailto",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "math",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "nocache",
     "named": true,
     "fields": {
@@ -649,6 +1180,46 @@
       "types": [
         {
           "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "start_tag",
           "named": true
         }
       ]
@@ -749,7 +1320,19 @@
           "named": true
         },
         {
+          "type": "capture",
+          "named": true
+        },
+        {
           "type": "config_load",
+          "named": true
+        },
+        {
+          "type": "counter",
+          "named": true
+        },
+        {
+          "type": "cycle",
           "named": true
         },
         {
@@ -757,7 +1340,19 @@
           "named": true
         },
         {
+          "type": "eval",
+          "named": true
+        },
+        {
           "type": "extends",
+          "named": true
+        },
+        {
+          "type": "fetch",
+          "named": true
+        },
+        {
+          "type": "for",
           "named": true
         },
         {
@@ -766,6 +1361,34 @@
         },
         {
           "type": "function",
+          "named": true
+        },
+        {
+          "type": "html_checkboxes",
+          "named": true
+        },
+        {
+          "type": "html_image",
+          "named": true
+        },
+        {
+          "type": "html_options",
+          "named": true
+        },
+        {
+          "type": "html_radios",
+          "named": true
+        },
+        {
+          "type": "html_select_date",
+          "named": true
+        },
+        {
+          "type": "html_select_time",
+          "named": true
+        },
+        {
+          "type": "html_table",
           "named": true
         },
         {
@@ -789,11 +1412,23 @@
           "named": true
         },
         {
+          "type": "mailto",
+          "named": true
+        },
+        {
+          "type": "math",
+          "named": true
+        },
+        {
           "type": "nocache",
           "named": true
         },
         {
           "type": "rdelim",
+          "named": true
+        },
+        {
+          "type": "section",
           "named": true
         },
         {
@@ -806,6 +1441,94 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "textformat",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "textformat",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributelist",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "start_tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "while",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "condition",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "start_tag",
           "named": true
         }
       ]
@@ -828,10 +1551,6 @@
     "named": true
   },
   {
-    "type": "condition",
-    "named": true
-  },
-  {
     "type": "end_tag",
     "named": true
   },
@@ -848,12 +1567,20 @@
     "named": true
   },
   {
+    "type": "step",
+    "named": false
+  },
+  {
     "type": "tag",
     "named": true
   },
   {
     "type": "text",
     "named": true
+  },
+  {
+    "type": "to",
+    "named": false
   },
   {
     "type": "value",

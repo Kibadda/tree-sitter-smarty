@@ -1,192 +1,5 @@
 ===================================
-Test include
-===================================
-Text
-{include "hi" test='true' file='test hi' string='halllo' ti=['test' => $hi, 'true' => false]}
-Text
----
-
-(template
-  (text)
-  (include
-    (tag)
-    (attributelist
-      (attribute (value))
-      (attribute (key) (value))
-      (attribute (key) (value))
-      (attribute (key) (value))
-      (attribute (key) (value)))
-  )
-  (text)
-)
-
-
-===================================
-Test block
-===================================
-Text
-{block hide name='test' prepend}
-Text
-{/block}
-Text
----
-
-(template
-  (text)
-  (block
-    (start_tag)
-    (attributelist
-      (attribute (value))
-      (attribute (key) (value))
-      (attribute (value)))
-    (body (text))
-    (end_tag)
-  )
-  (text)
-)
-
-
-===================================
-Test foreach
-===================================
-Text
-{foreach $tests as $key => $value}
-Text
-{foreachelse}
-Text
-{/foreach}
-Text
----
-
-(template
-  (text)
-  (foreach
-    (start_tag)
-    (expression)
-    (body
-      (text))
-    (foreachelse
-      (tag)
-      (body
-        (text)))
-    (end_tag)
-  )
-  (text)
-)
-
-
-===================================
-Test nocache
-===================================
-Text
-{nocache}
-Text
-{/nocache}
-Text
----
-
-(template
-  (text)
-  (nocache
-    (start_tag)
-    (body
-      (text))
-    (end_tag)
-  )
-  (text)
-)
-
-
-===================================
-Test if
-===================================
-Text
-{if is_null($test)}
-Text
-{elseif !empty($test)}
-Text
-{elseif false}
-Text
-{else}
-Text
-{/if}
-Text
----
-
-(template
-  (text)
-  (if
-    (start_tag)
-    (condition)
-    (body
-      (text))
-    (elseif
-      (tag)
-      (condition)
-      (body
-        (text)))
-    (elseif
-      (tag)
-      (condition)
-      (body
-        (text)))
-    (else
-      (tag)
-      (body
-        (text)))
-    (end_tag)
-  )
-  (text)
-)
-
-
-===================================
-Test inline
-===================================
-{$hi}
----
-
-(template
-  (inline)
-)
-
-
-===================================
-Test comment
-===================================
-Text
-{* fdjasklfdsajfdsa *} *}
----
-
-(template
-  (text)
-  (comment)
-  (text)
-)
-
-
-===================================
-Test combination
-===================================
-{if true}
-  Hi
-{/if}
-{$hi}
----
-
-(template
-  (if
-    (start_tag)
-    (condition)
-    (body
-      (text))
-    (end_tag))
-  (inline)
-)
-
-
-===================================
-Test single brackets and empty brackets
+text
 ===================================
 Text {
 
@@ -194,18 +7,252 @@ Text {
 ---
 
 (template
-  (text)
-)
+  (text))
 
 
 ===================================
-Test body with only inline
+comment
 ===================================
-{if !empty($lastLog)}
-    {$lastLog->getCreated()}
-    {$lastLog->getLog()}
+{* commenting *}
+{*
+still comment
+*}
+{* *} *}
+---
+
+(template
+  (comment)
+  (comment)
+  (comment)
+  (text))
+
+
+===================================
+inline
+===================================
+{$hi}
+{"hi"}
+---
+
+(template
+  (inline)
+  (inline))
+
+
+===================================
+append
+===================================
+{append var='name' value='Bob' index='first'}
+{append name' Bob' index='first'}
+---
+
+(template
+  (append
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value))
+      (attribute (key) (value))))
+  (append
+    (tag)
+    (attributelist
+      (attribute (value))
+      (attribute (value))
+      (attribute (key) (value)))))
+
+
+===================================
+assign
+===================================
+{assign var="name" value="Bob"}
+{assign "name" "Bob"}
+---
+
+(template
+  (assign
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value))))
+  (assign
+    (tag)
+    (attributelist
+      (attribute (value))
+      (attribute (value)))))
+
+
+===================================
+block
+===================================
+{block name="title"}Default Title{/block}
+{block "title"}Default Title{/block}
+---
+
+(template
+  (block
+    (start_tag)
+    (attributelist
+      (attribute (key) (value)))
+    (body
+      (text))
+    (end_tag))
+  (block
+    (start_tag)
+    (attributelist
+      (attribute (value)))
+    (body
+      (text))
+    (end_tag)))
+
+
+===================================
+call
+===================================
+{call name=menu data=$entry level=$level+1}
+---
+
+(template
+  (call
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value))
+      (attribute (key) (value)))))
+
+
+===================================
+capture
+===================================
+{capture name="banner"}
+Text
+{/capture}
+---
+
+(template
+  (capture
+    (start_tag)
+    (attributelist
+      (attribute (key) (value)))
+    (body
+      (text))
+    (end_tag)))
+
+
+===================================
+config_load
+===================================
+{config_load file="example.conf"}
+---
+
+(template
+  (config_load
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+debug
+===================================
+{debug}
+---
+
+(template
+  (debug
+    (tag)))
+
+
+===================================
+extends
+===================================
+{extends name="parent.tpl"}
+---
+
+(template
+  (extends
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+for
+===================================
+{for $foo=$start to $to step $step}
+  <li>Hi</li>
+{forelse}
+  no iteration
+{/for}
+---
+
+(template
+  (for
+    (start_tag)
+    (expression)
+    (body
+      (text))
+    (forelse
+      (tag)
+      (body
+        (text)))
+    (end_tag)))
+
+
+===================================
+foreach
+===================================
+{foreach $myColors as $color}
+  <li>{$color}</li>
+{foreachelse}
+  no iteration
+{/foreach}
+---
+
+(template
+  (foreach
+    (start_tag)
+    (expression)
+    (body
+      (text)
+      (inline)
+      (text))
+    (foreachelse
+      (tag)
+      (body
+        (text)))
+    (end_tag)))
+
+
+===================================
+function
+===================================
+{function name=menu level=0}
+  <div class="{$level}">Hi</div>
+{/function}
+---
+
+(template
+  (function
+    (start_tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value)))
+    (body
+      (text)
+      (inline)
+      (text))
+    (end_tag)))
+
+
+===================================
+if
+===================================
+{if $name eq 'Fred'}
+  Welcome
+{elseif $name == 'Wilma'}
+  Hello
 {else}
-    <em>no last update found</em>
+  Bye
 {/if}
 ---
 
@@ -214,8 +261,12 @@ Test body with only inline
     (start_tag)
     (condition)
     (body
-      (inline)
-      (inline))
+      (text))
+    (elseif
+      (tag)
+      (condition)
+      (body
+        (text)))
     (else
       (tag)
       (body
@@ -224,13 +275,26 @@ Test body with only inline
 
 
 ===================================
-Test attributes 1
+include
 ===================================
-{include test='hi' two='file'}
+{include file='page_header.tpl'}
 ---
 
 (template
   (include
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+insert
+===================================
+{insert name="getBanner" lid=#banner_location_id#}
+---
+
+(template
+  (insert
     (tag)
     (attributelist
       (attribute (key) (value))
@@ -238,13 +302,123 @@ Test attributes 1
 
 
 ===================================
-Test attributes 2
+ldelim/rdelim
 ===================================
-{include test="hi" two="file"}
+<script>
+function foo() {ldelim}
+{rdelim}
+</script>
 ---
 
 (template
-  (include
+  (text)
+  (ldelim
+    (tag))
+  (rdelim
+    (tag))
+  (text))
+
+
+===================================
+nocache
+===================================
+{nocache}
+{$smarty.now}
+{/nocache}
+---
+
+(template
+  (nocache
+    (start_tag)
+    (body
+      (inline))
+    (end_tag)))
+
+
+===================================
+section
+===================================
+{section name=customer loop=$custid}
+id: {$custid[customer]}<br/>
+{/section}
+---
+
+(template
+  (section
+    (start_tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value)))
+    (body
+      (text)
+      (inline)
+      (text))
+    (end_tag)))
+
+
+===================================
+setfilter
+===================================
+{setfilter filter1}
+{$foo}
+{/setfilter}
+---
+
+(template
+  (setfilter
+    (start_tag)
+    (attributelist
+      (attribute (value)))
+    (body
+      (inline))
+    (end_tag)))
+
+
+===================================
+strip
+===================================
+{strip}
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+{/strip}
+---
+
+(template
+  (strip
+    (start_tag)
+    (body
+      (text))
+    (end_tag)))
+
+
+===================================
+while
+===================================
+{while $foo > 0}
+  {$foo--}
+{/while}
+---
+
+(template
+  (while
+    (start_tag)
+    (condition)
+    (body
+      (inline))
+    (end_tag)))
+
+
+===================================
+counter
+===================================
+{counter start=0 skip=2}
+---
+
+(template
+  (counter
     (tag)
     (attributelist
       (attribute (key) (value))
@@ -252,13 +426,52 @@ Test attributes 2
 
 
 ===================================
-Test attributes 3
+cycle
 ===================================
-{include test=["hi", 'file', true] two=[]}
+{cycle values="odd,even"}
 ---
 
 (template
-  (include
+  (cycle
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+eval
+===================================
+{eval var=$foo}
+---
+
+(template
+  (eval
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+fetch
+===================================
+{fetch file='/export/httpd/www.example.com/docs/navbar.js'}
+---
+
+(template
+  (fetch
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+html_checkboxes
+===================================
+{html_checkboxes name='id' options=$cust_checkboxes}
+---
+
+(template
+  (html_checkboxes
     (tag)
     (attributelist
       (attribute (key) (value))
@@ -266,29 +479,26 @@ Test attributes 3
 
 
 ===================================
-Test attributes 4
+html_image
 ===================================
-{include "hi" true [] 'hi'}
+{html_image file='pumpkin.jpg'}
 ---
 
 (template
-  (include
+  (html_image
     (tag)
     (attributelist
-      (attribute (value))
-      (attribute (value))
-      (attribute (value))
-      (attribute (value)))))
+      (attribute (key) (value)))))
 
 
 ===================================
-Test attributes 5
+html_options
 ===================================
-{include test=true two=$hi}
+{html_options name='id' options=$cust_checkboxes}
 ---
 
 (template
-  (include
+  (html_options
     (tag)
     (attributelist
       (attribute (key) (value))
@@ -296,30 +506,102 @@ Test attributes 5
 
 
 ===================================
-Test attributes 6
+html_radios
 ===================================
-{include hide name='test' prepend}
+{html_radios name='id' options=$cust_checkboxes}
 ---
 
 (template
-  (include
+  (html_radios
     (tag)
     (attributelist
-      (attribute (value))
-      (attribute (key) (value))
-      (attribute (value)))))
-
-
-===================================
-Test append
-===================================
-{append 'name' value='test' index='last'}
----
-
-(template
-  (append
-    (tag)
-    (attributelist
-      (attribute (value))
       (attribute (key) (value))
       (attribute (key) (value)))))
+
+
+===================================
+html_select_date
+===================================
+{html_select_date}
+---
+
+(template
+  (html_select_date
+    (tag)))
+
+
+===================================
+html_select_time
+===================================
+{html_select_time use_24_hours=true}
+---
+
+(template
+  (html_select_time
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+html_table
+===================================
+{html_table loop=$data}
+---
+
+(template
+  (html_table
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+mailto
+===================================
+{mailto address="me@example.com"}
+---
+
+(template
+  (mailto
+    (tag)
+    (attributelist
+      (attribute (key) (value)))))
+
+
+===================================
+math
+===================================
+{math equation="x + y" x=$height y=$width}
+---
+
+(template
+  (math
+    (tag)
+    (attributelist
+      (attribute (key) (value))
+      (attribute (key) (value))
+      (attribute (key) (value)))))
+
+
+===================================
+textformat
+===================================
+{textformat wrap=40}
+This is foo.
+This is foo.
+This is foo.
+This is foo.
+This is foo.
+This is foo.
+{/textformat}
+---
+
+(template
+  (textformat
+    (start_tag)
+    (attributelist
+      (attribute (key) (value)))
+    (body
+      (text))
+    (end_tag)))

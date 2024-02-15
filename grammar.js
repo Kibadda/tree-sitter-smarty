@@ -7,7 +7,8 @@ module.exports = grammar({
     $.text,
     $.attribute_key,
     $.attribute_value,
-    $.error_check,
+
+    $.error_check, // just for error correction
   ],
 
   extras: $ => [
@@ -19,18 +20,22 @@ module.exports = grammar({
     template: $ => repeat($._smarty),
 
     _smarty: $ => choice(
-      $.inline,
+      // html
       $.text,
 
+      // variables https://smarty-php.github.io/smarty/4.x/designers/language-variables/
+      $.inline,
+
+      // builtin functions https://smarty-php.github.io/smarty/4.x/designers/language-builtin-functions/
       $.append,
       $.assign,
       $.block,
       $.call,
-      // $.capture,
+      $.capture,
       $.config_load,
       $.debug,
       $.extends,
-      // $.for,
+      $.for,
       $.foreach,
       $.function,
       $.if,
@@ -40,21 +45,47 @@ module.exports = grammar({
       $.rdelim,
       // $.literal,
       $.nocache,
-      // $.section,
+      $.section,
       $.setfilter,
       $.strip,
-      // $.while,
+      $.while,
+
+      // custom functions https://smarty-php.github.io/smarty/4.x/designers/language-custom-functions/
+      $.counter,
+      $.cycle,
+      $.eval,
+      $.fetch,
+      $.html_checkboxes,
+      $.html_image,
+      $.html_options,
+      $.html_radios,
+      $.html_select_date,
+      $.html_select_time,
+      $.html_table,
+      $.mailto,
+      $.math,
+      $.textformat,
     ),
 
     append: $ => tag($, 'append', true, false),
     assign: $ => tag($, 'assign', true, false),
     block: $ => tag($, 'block', true, true),
     call: $ => tag($, 'call', true, false),
-    // capture
+    capture: $ => tag($, 'capture', true, true),
     config_load: $ => tag($, 'config_load', true, false),
     debug: $ => tag($, 'debug', false, false),
     extends: $ => tag($, 'extends', true, false),
-    // for
+    for: $ => seq(
+      '{',
+      alias('for', $.start_tag),
+      field('expression', alias($.forexpression, $.expression)),
+      '}',
+      field('body', alias(repeat($._smarty), $.body)),
+      field('alternative', optional($.forelse)),
+      '{/',
+      alias('for', $.end_tag),
+      '}',
+    ),
     foreach: $ => seq(
       '{',
       alias('foreach', $.start_tag),
@@ -70,7 +101,7 @@ module.exports = grammar({
     if: $ => seq(
       '{',
       alias('if', $.start_tag),
-      field('condition', alias($.ifcondition, $.condition)),
+      field('condition', $.condition),
       '}',
       field('body', alias(repeat($._smarty), $.body)),
       repeat(field('alternative', $.elseif)),
@@ -85,10 +116,34 @@ module.exports = grammar({
     rdelim: $ => tag($, 'rdelim', false, false),
     // literal
     nocache: $ => tag($, 'nocache', false, true),
-    // section
+    section: $ => tag($, 'section', true, true),
     setfilter: $ => tag($, 'setfilter', true, true),
     strip: $ => tag($, 'strip', false, true),
-    // while
+    while: $ => seq(
+      '{',
+      alias('while', $.start_tag),
+      field('condition', $.condition),
+      '}',
+      field('body', alias(repeat($._smarty), $.body)),
+      '{/',
+      alias('while', $.end_tag),
+      '}',
+    ),
+
+    counter: $ => tag($, 'counter', true, false),
+    cycle: $ => tag($, 'cycle', true, false),
+    eval: $ => tag($, 'eval', true, false),
+    fetch: $ => tag($, 'fetch', true, false),
+    html_checkboxes: $ => tag($, 'html_checkboxes', true, false),
+    html_image: $ => tag($, 'html_image', true, false),
+    html_options: $ => tag($, 'html_options', true, false),
+    html_radios: $ => tag($, 'html_radios', true, false),
+    html_select_date: $ => tag($, 'html_select_date', true, false),
+    html_select_time: $ => tag($, 'html_select_time', true, false),
+    html_table: $ => tag($, 'html_table', true, false),
+    mailto: $ => tag($, 'mailto', true, false),
+    math: $ => tag($, 'math', true, false),
+    textformat: $ => tag($, 'textformat', true, true),
 
     attributelist: $ => repeat1($.attribute),
 
@@ -114,12 +169,31 @@ module.exports = grammar({
       field('body', alias(repeat($._smarty), $.body)),
     ),
 
-    ifcondition: _ => /[^}]+/,
+    forexpression: _ => seq(
+      /\$[^\s=]+/,
+      '=',
+      /[^\s]+/,
+      'to',
+      /[^\s}]+/,
+      optional(seq(
+        'step',
+        /[^}]+/,
+      )),
+    ),
+
+    forelse: $ => seq(
+      '{',
+      alias('forelse', $.tag),
+      '}',
+      field('body', alias(repeat($._smarty), $.body)),
+    ),
+
+    condition: _ => /[^}]+/,
 
     elseif: $ => prec.left(1, seq(
       '{',
       alias('elseif', $.tag),
-      field('condition', alias($.ifcondition, $.condition)),
+      field('condition', $.condition),
       '}',
       field('body', alias(repeat($._smarty), $.body)),
     )),

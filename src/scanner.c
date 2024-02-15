@@ -47,17 +47,20 @@ void tree_sitter_smarty_external_scanner_deserialize(void *payload,
                                                      const char *buffer,
                                                      unsigned length) {}
 
-#define KEYWORD_LENGTH 27
+#define KEYWORD_LENGTH 51
 const char *keywords[KEYWORD_LENGTH] = {
+    // builtin functions
     "append",
 
     "assign",
 
-    "block", "/block",
+    "block",
+    "/block",
 
     "call",
 
-    // "capture",     "/capture",
+    "capture",
+    "/capture",
 
     "config_load",
 
@@ -65,13 +68,21 @@ const char *keywords[KEYWORD_LENGTH] = {
 
     "extends",
 
-    // "for",
+    "for",
+    "forelse",
+    "/for",
 
-    "foreach", "foreachelse", "/foreach",
+    "foreach",
+    "foreachelse",
+    "/foreach",
 
-    "function", "/function",
+    "function",
+    "/function",
 
-    "if", "elseif", "else", "/if",
+    "if",
+    "elseif",
+    "else",
+    "/if",
 
     "include",
 
@@ -83,15 +94,50 @@ const char *keywords[KEYWORD_LENGTH] = {
 
     // "literal",     "/literal",
 
-    "nocache", "/nocache",
+    "nocache",
+    "/nocache",
 
-    // "section",     "/section",
+    "section",
+    "/section",
 
-    "setfilter", "/setfilter",
+    "setfilter",
+    "/setfilter",
 
-    "strip", "/strip",
+    "strip",
+    "/strip",
 
-    // "while",       "/while",
+    "while",
+    "/while",
+
+    // custom functions
+    "counter",
+
+    "cycle",
+
+    "eval",
+
+    "fetch",
+
+    "html_checkboxes",
+
+    "html_image",
+
+    "html_options",
+
+    "html_radios",
+
+    "html_select_date",
+
+    "html_select_time",
+
+    "html_table",
+
+    "mailto",
+
+    "math",
+
+    "textformat",
+    "/textformat",
 };
 
 static bool scan_inline(TSLexer *lexer) {

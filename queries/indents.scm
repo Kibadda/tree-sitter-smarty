@@ -1,13 +1,20 @@
 [
-  (if)
   (block)
-  (nocache)
+  (capture)
+  (for)
   (foreach)
+  (function)
+  (if)
+  (nocache)
+  (section)
   (setfilter)
   (strip)
+  (while)
+  (textformat)
 ] @indent.begin
 
 [
+  (forelse)
   (foreachelse)
   (elseif)
   (else)

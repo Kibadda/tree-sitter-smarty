@@ -1,6 +1,6 @@
 # tree-sitter-smarty
 
-This now supports most of the smarty functionality. There are still things missing (e.g. like modifiers).
+This now supports most of the smarty functionality. There are still things missing (e.g. like modifiers and literal).
 
 ## Usage
 First add parser:
