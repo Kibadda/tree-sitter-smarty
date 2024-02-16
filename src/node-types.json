@@ -1615,10 +1615,6 @@
     "named": false
   },
   {
-    "type": "as",
-    "named": false
-  },
-  {
     "type": "comment",
     "named": true
   },
@@ -1647,20 +1643,12 @@
     "named": true
   },
   {
-    "type": "step",
-    "named": false
-  },
-  {
     "type": "tag",
     "named": true
   },
   {
     "type": "text",
     "named": true
-  },
-  {
-    "type": "to",
-    "named": false
   },
   {
     "type": "value",

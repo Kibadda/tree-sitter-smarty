@@ -1996,8 +1996,8 @@
           "value": "\\$[^\\s]+"
         },
         {
-          "type": "STRING",
-          "value": "as"
+          "type": "PATTERN",
+          "value": "[aA][sS]"
         },
         {
           "type": "PATTERN",
@@ -2080,8 +2080,8 @@
           "value": "[^\\s]+"
         },
         {
-          "type": "STRING",
-          "value": "to"
+          "type": "PATTERN",
+          "value": "[tT][oO]"
         },
         {
           "type": "PATTERN",
@@ -2094,8 +2094,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "step"
+                  "type": "PATTERN",
+                  "value": "[sS][tT][eE][pP]"
                 },
                 {
                   "type": "PATTERN",

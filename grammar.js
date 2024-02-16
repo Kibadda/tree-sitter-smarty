@@ -172,7 +172,7 @@ module.exports = grammar({
 
     foreachexpression: _ => seq(
       /\$[^\s]+/,
-      'as',
+      /[aA][sS]/,
       /\$[^\s=}]+/,
       optional(seq(
         '=>',
@@ -191,10 +191,10 @@ module.exports = grammar({
       /\$[^\s=]+/,
       '=',
       /[^\s]+/,
-      'to',
+      /[tT][oO]/,
       /[^\s}]+/,
       optional(seq(
-        'step',
+        /[sS][tT][eE][pP]/,
         /[^}]+/,
       )),
     ),
